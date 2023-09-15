@@ -1,0 +1,36 @@
+﻿@page "/counter"
+@attribute [RenderModeServer]
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+
+    [CascadingParameter(Name = "Defaults")]
+    public MyCounterDefaults? Defaults
+    {
+        get => _defaults;
+        set => _defaults = value;
+    }
+
+    private MyCounterDefaults? _defaults;
+    private int currentCount;
+
+    protected override void OnParametersSet()
+    {
+        _defaults = Defaults;
+        currentCount = _defaults?.CurrentCount ?? 5;
+
+    // base.OnParametersSet();
+    }
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}
